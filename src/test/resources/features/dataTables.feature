@@ -1,5 +1,5 @@
 Feature: Examples of cucumber data table implementations
-  @wip
+
   Scenario: List of fruits I like
     Then User should see fruits I like
       | kiwi        |
