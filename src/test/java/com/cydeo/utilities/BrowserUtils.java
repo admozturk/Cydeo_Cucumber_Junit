@@ -4,8 +4,11 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class BrowserUtils {
@@ -54,8 +57,16 @@ public class BrowserUtils {
      */
     public static void verifyTitle(WebDriver driver , String expectedTitle){
 
-        Assert.assertEquals(driver.getTitle(), expectedTitle);
+        Assert.assertEquals(Driver.getDriver().getTitle(), expectedTitle);
 
+    }
+
+    /**
+     * This method will accept a string as expected value and verify actual URL CONTAINS value
+     * @param expectedInURL
+     */
+    public static void verifyTitleContains(String expectedInURL){
+        Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains(expectedInURL));
     }
 
     /*
@@ -65,5 +76,28 @@ public class BrowserUtils {
         //Driver.getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
         wait.until(ExpectedConditions.invisibilityOf(webElement));
+    }
+
+
+    /**
+     * This method will accept a dropdown as a webElement
+     * and return all the options' text in a list of string.
+     * @param dropdownElement
+     * @return List<String> actualOptionsAsString
+     */
+    public static List<String> dropdownOptionsAsString(WebElement dropdownElement){
+        Select select = new Select(dropdownElement);
+
+        // List of all ACTUAL month <options> as a web Element (getting webElements)
+        List<WebElement> actualOptionsAsWebElement = select.getOptions();
+
+        // List of all ACTUAL month <options> as a string first we create it empty list
+        // then with for each loop we add each text of months (
+        List<String> actualOptionsAsString = new ArrayList<>();
+
+        for (WebElement eachMonths : actualOptionsAsWebElement) {
+            actualOptionsAsString.add(eachMonths.getText()); // getting each texts of webElements
+        }
+      return actualOptionsAsString;
     }
 }
