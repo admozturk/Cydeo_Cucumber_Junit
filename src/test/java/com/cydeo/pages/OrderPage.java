@@ -5,12 +5,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class OrderPage extends BasePage{
 
     public OrderPage(){
         PageFactory.initElements(Driver.getDriver(),this);
 
     }
+
+    ViewAllOrdersPage viewAllOrdersPage = new ViewAllOrdersPage();
 
     @FindBy(name = "product")
     public WebElement productDropdown;
@@ -33,8 +37,8 @@ public class OrderPage extends BasePage{
     @FindBy(name = "zip")
     public WebElement inputZip;
 
-    @FindBy(xpath = "//label[@class='radio'][3]")
-    public WebElement cartType;
+    @FindBy(name = "card")
+    public List<WebElement> cartType;
 
     @FindBy(name = "cardNo")
     public WebElement cartNumber;
@@ -45,8 +49,8 @@ public class OrderPage extends BasePage{
     @FindBy(xpath = "//button[.='Process Order']")
     public WebElement orderButton;
 
-    @FindBy(xpath = "//td[.='Sherlock Holmes']")
-    public WebElement firstRow;
+
+
 
 
 

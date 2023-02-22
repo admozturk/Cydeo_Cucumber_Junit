@@ -2,15 +2,19 @@ package com.cydeo.step_definitions;
 
 import com.cydeo.pages.BasePage;
 import com.cydeo.pages.OrderPage;
+import com.cydeo.pages.ViewAllOrdersPage;
 import com.cydeo.pages.WebTableLoginPage;
+import com.cydeo.utilities.BrowserUtils;
 import com.cydeo.utilities.ConfigurationReader;
 import com.cydeo.utilities.Driver;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.Select;
+
+
 
 public class OrderStepDefinitions {
 
@@ -18,6 +22,8 @@ public class OrderStepDefinitions {
     BasePage basePage = new BasePage();
 
     OrderPage orderPage = new OrderPage();
+
+    ViewAllOrdersPage viewAllOrdersPage = new ViewAllOrdersPage();
 
     @Given("user is already logged in and on order page")
     public void user_is_already_logged_in_and_on_order_page() {
@@ -39,8 +45,19 @@ public class OrderStepDefinitions {
 
 
     }
+    // accepting int argument and sending it using send keys method
+    // since sendKeys method only accepts string, we need to either concat with + "" or sendKeys.valueOf(int);
+
+   //  @When("user enters quantity {int}")
+   //  public void user_enters_quantity(int arg0) {
+   //     orderPage.inputQuantity.sendKeys(arg0+"");
+   //    orderPage.inputQuantity.sendKeys(String.valueOf(arg0));
+
+
     @When("user enters quantity {string}")
     public void user_enters_quantity(String string) {
+        orderPage.inputQuantity.sendKeys(Keys.BACK_SPACE);
+       //  orderPage.inputQuantity.clear();
         orderPage.inputQuantity.sendKeys(string);
 
 
@@ -71,18 +88,17 @@ public class OrderStepDefinitions {
 
     }
     @When("user selects credit card type {string}")
-    public void user_selects_credit_card_type(String string) {
-        orderPage.cartType.click();
-
-
+    public void user_selects_credit_card_type(String expectedCardType) {
+        BrowserUtils.clickRadioButton(orderPage.cartType,expectedCardType);
     }
+
     @When("user enters credit card number {string}")
     public void user_enters_credit_card_number(String string) {
         orderPage.cartNumber.sendKeys(string);
 
 
-
     }
+
     @When("user enters expiry date {string}")
     public void user_enters_expiry_date(String string) {
         orderPage.cartExpire.sendKeys(string);
@@ -95,7 +111,14 @@ public class OrderStepDefinitions {
     }
     @Then("user should see {string} in first row of the web table")
     public void user_should_see_in_first_row_of_the_web_table(String string) {
-        Assert.assertEquals(string,orderPage.firstRow.getText());
+
+       Assert.assertEquals(string,viewAllOrdersPage.newCustomerCell.getText());
+
+       Driver.closeDriver();
+
 
     }
+
+
+
 }
